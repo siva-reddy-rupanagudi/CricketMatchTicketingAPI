@@ -23,8 +23,8 @@ public class MatchesService {
         return matchesDto;
     }
 
-    public MatcheDto updateMatchById(Integer id,MatcheDto matchesDto) {
-        Matches matches= matchesRepo.findById(id).orElseThrow(()->new MatchNotFoundException("Match not found with id: "+id));
+    public MatcheDto updateMatchById(Integer id, MatcheDto matchesDto) {
+        Matches matches = matchesRepo.findById(id).orElseThrow(() -> new MatchNotFoundException("Match not found with id: " + id));
         BeanUtils.copyProperties(matchesDto, matches);
         BeanUtils.copyProperties(matchesRepo.save(matches), matchesDto);
         return matchesDto;
@@ -32,20 +32,20 @@ public class MatchesService {
     }
 
     public List<MatcheDto> getAllMatches() {
-        List<Matches> matchesList=matchesRepo.findAll();
-        if(matchesList.isEmpty()) throw new MatchesNotSheduledException("No matches are scheduled at the moment.");
-        List<MatcheDto> matcheDtos= matchesList.stream().map(matche->{
-            MatcheDto matcheDto=new MatcheDto();
-            BeanUtils.copyProperties(matche,matcheDto);
+        List<Matches> matchesList = matchesRepo.findAll();
+        if (matchesList.isEmpty()) throw new MatchesNotSheduledException("No matches are scheduled at the moment.");
+
+        return matchesList.stream().map(matche -> {
+            MatcheDto matcheDto = new MatcheDto();
+            BeanUtils.copyProperties(matche, matcheDto);
             return matcheDto;
         }).toList();
-        return matcheDtos;
     }
 
     public MatcheDto getMatchbyid(Integer id) {
-        MatcheDto matcheDto=new MatcheDto();
-        Matches matches=matchesRepo.findById(id).orElseThrow(()->new MatchNotFoundException("Match Not Found by this Id: "+id));
-        BeanUtils.copyProperties(matches,matcheDto);
+        MatcheDto matcheDto = new MatcheDto();
+        Matches matches = matchesRepo.findById(id).orElseThrow(() -> new MatchNotFoundException("Match Not Found by this Id: " + id));
+        BeanUtils.copyProperties(matches, matcheDto);
         return matcheDto;
     }
 }

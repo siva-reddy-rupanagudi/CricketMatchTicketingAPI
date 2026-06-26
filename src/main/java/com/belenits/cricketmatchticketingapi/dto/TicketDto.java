@@ -1,6 +1,5 @@
 package com.belenits.cricketmatchticketingapi.dto;
 
-import com.belenits.cricketmatchticketingapi.entity.Matches;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
