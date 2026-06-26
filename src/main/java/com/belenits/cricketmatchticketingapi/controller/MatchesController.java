@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/matches")
-public class AdminController {
+public class MatchesController {
     @Autowired
     private MatchesService matchesService;
     @PostMapping("/")
@@ -33,5 +35,24 @@ public class AdminController {
         apiResponse.setMessage("Match updated Successfully");
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
+    }
+    @GetMapping("/")
+    public ResponseEntity<ApiResponse<List<MatcheDto>>> getAllMatches() {
+        List<MatcheDto> matchesList = matchesService.getAllMatches();
+        ApiResponse<List<MatcheDto>> response = new ApiResponse<>();
+        response.setData(matchesList);
+        response.setMessage("Matches fetched from db successfully");
+        response.setStatus(201);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<MatcheDto>> getMatchById(@PathVariable Integer id){
+        MatcheDto matcheDto=matchesService.getMatchbyid(id);
+        ApiResponse<MatcheDto>response=new ApiResponse<>();
+        response.setData(matcheDto);
+        response.setMessage("Match details was Showed");
+        response.setStatus(200);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
